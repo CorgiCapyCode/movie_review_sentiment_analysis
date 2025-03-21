@@ -1,0 +1,9 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore the dataset directory
+data
+src/preprocessing/vec_model_weights/GoogleNews-vectors-negative300.bin
