@@ -47,3 +47,11 @@ lemmatized_no_sw:   lemmatization with stop words removed
 
     - probably best approach to create single vectorized file for each algorithm
     - check if replacement of words is recommended (not for the first column, in order to maintain one text column)
+
+
+
+
+https://medium.com/@abhishekrajs121098/complete-guide-for-supervised-learning-classification-machine-learning-a7ea4e9ff676
+
+
+Find a solution to store the large datasets!

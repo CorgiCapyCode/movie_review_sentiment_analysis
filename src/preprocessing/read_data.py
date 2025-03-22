@@ -2,15 +2,16 @@ import ast
 import logging
 import os
 import pandas as pd
+import pickle
 import threading
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
-def csv_reader(path: str = None)  -> pd.DataFrame:
+def csv_reader(path: str =None)  -> pd.DataFrame:
   """
-  Function to read the dataset.
+  Function to read a dataset stored in CSV format.
   
   Args:
     path: str = None -> Path to the dataset stored as CSV.
@@ -26,8 +27,27 @@ def csv_reader(path: str = None)  -> pd.DataFrame:
     logger.error(f'Error reading csv: {e} ')
 
 
+def pickle_reader(path: str =None) -> pd.DataFrame:
+  """
+  Function to read a dataset stored in Pickle format.
+  
+  Args:
+    path: str = None -> Path to the dataset stored as Pickle.
+    
+  Return:
+    df: pd.DataFrame -> Returns the data as a dataframe.
+  """
+  try:
+    with open(path, 'rb') as file:
+      df = pickle.load(file)
+    logger.info(f'Loaded data from {path}.')
+    return df
+  except Exception as e:
+    logger.error(f'Error reading pickle file: {e}')
+    
 
-def csv_read_and_convert(path: str = None, column_names_to_convert: list =None) -> pd.DataFrame:
+
+def csv_read_and_convert(path: str = None, column_names_to_convert: list =None) -> pd.DataFrame:  
   """
   Function to read the dataset and convert the tokenized columns from string to list format.
   

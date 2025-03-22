@@ -151,6 +151,7 @@ def apply_preprocessing(df: pd.DataFrame, review_column: str ='review'):
         review_column: str = 'review' -> Name of the column containing the reviews.
     """
     try:
+        df['sentiment'] = df['sentiment'].map({'positive': 1, 'negative': 0})
         df = apply_treebank_tokenization(df=df)
         df = apply_stopword_removal(df=df)
         
@@ -166,10 +167,11 @@ def apply_preprocessing(df: pd.DataFrame, review_column: str ='review'):
             thread.start()
         for thread in threads:
             thread.join()
-        df.to_csv('data/preprocessed_dataset.csv', index=False)
+        df.to_csv('data/preprocessed/preprocessed_dataset.csv', index=False)
+        df.to_pickle('data/preprocessed/preprocessed_dataset.pkl')
         logger.info('Preprocessing completed. Data stored.')
     except Exception as e:
-        logger.error('Error while preprocessing: {e}')
+        logger.error(f'Error while preprocessing: {e}')
 
 
 if __name__=='__main__':

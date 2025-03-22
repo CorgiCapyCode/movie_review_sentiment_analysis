@@ -66,14 +66,14 @@ For lemmatizaiton POS-tagging is applied to enhance the results.
 ## Vectorization
 Vectorization is applied using different methods:  
 - Word2Vec
-- ELMo
 - RoBERTa
 
 For Word2Vec a pre-trained model was used: [GoogleNews-vectors-negative300.bin.gz](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?resourcekey=0-wjGZdNAUop6WykTtMip30g)  
-
-The model weights for the pre-trained algorithm are excluded from this repo.  
+The model weights for the pre-trained algorithm are excluded from this repo. Please download the latest weights 
 
 [Code](src\preprocessing\vectorization.py)  
+
+
 
 # **Model Training**
 
