@@ -265,9 +265,9 @@ def apply_roberta(df: pd.DataFrame, token_columns: list, use_cuda: bool =True, o
  
  
 if __name__=='__main__':
-    
+    # Define which vectorization method should be applied.
     run_word2vec = True
-    run_RoBERTa = False
+    run_RoBERTa = True
     
     columns_with_tokens = [
         'tokenized',
@@ -278,13 +278,18 @@ if __name__=='__main__':
         'lemmatized_no_sw',
     ]
     
+    print('Start loading the dataset.')
     #df = csv_read_and_convert(path='data/preprocessed/preprocessed_dataset.csv', column_names_to_convert=columns_with_tokens)
     df = pickle_reader(path='data/preprocessed/preprocessed_dataset.pkl')
+    print('Finished loading the dataset.')
 
     if run_word2vec:
         # For training of the word2vec model.
-        # train_word2vec(df=df, token_column='tokenized', vector_size=300, window=5)
+        print('Start the training process for Word2Vec based on the reviews.')
+        train_word2vec(df=df, token_column='tokenized', vector_size=300, window=5)
+        print('Finished the training.')
 
+        print('Start Word2Vec vectorization with the model from GoogleNews and the self trained model.')
         df_for_google_news = df.copy()
         df_for_self_trained = df.copy()    
         google_model = load_pretrained_word2vec(model_path='src/preprocessing/vec_model_weights/GoogleNews-vectors-negative300.bin')    
@@ -309,16 +314,18 @@ if __name__=='__main__':
         print('Finished processing Word2Vec.')
         
         print('Results from Google News:')
-        print(df_with_google_news.head())
+        print(df_with_google_news.info())
         print('Results from Self-Trained:')
-        print(df_with_self_trained.head())        
+        print(df_with_self_trained.info())        
         
     # Warning: The task is computational intensive.
     if run_RoBERTa:
+        print('Start RoBERTa vectorization based on the pretrained model. WARNING: THis might take a while...')
         df_for_roberta = df.copy()
         df_with_roberta = apply_roberta(df=df_for_roberta, token_columns=columns_with_tokens, use_cuda=True, output_name='roberta_vecs', drop_tokens=True)
+        print('Finished the vectorization with RoBERTa.')
         print('Results from Roberta:')
-        print(df_with_roberta.head())
+        print(df_with_roberta.info())
         
     
     

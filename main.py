@@ -10,11 +10,15 @@ if __name__=='__main__':
   df = csv_reader('data/raw/imdb_dataset.csv')
   
   # Pre-Processing
-  apply_preprocessing(df)
-  df = csv_reader('data/preprocessed/preprocessed_dataset.csv')
+  print('Start preprocessing')
+  try:
+    df_preprocessed = apply_preprocessing(df)
+    logger.info(f'Finished preprocessing. Results: {df_preprocessed.info()}')
+  except Exception as e:
+    logger.error(f'Error while preprocessing: {e}')
+    exit(1)
   
   # Word Vectorization
-  
   
   
   # Model Training

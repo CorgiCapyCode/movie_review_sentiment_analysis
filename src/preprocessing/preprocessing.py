@@ -151,7 +151,6 @@ def apply_preprocessing(df: pd.DataFrame, review_column: str ='review'):
         review_column: str = 'review' -> Name of the column containing the reviews.
     """
     try:
-        df['sentiment'] = df['sentiment'].map({'positive': 1, 'negative': 0})
         df = apply_treebank_tokenization(df=df)
         df = apply_stopword_removal(df=df)
         
@@ -170,14 +169,17 @@ def apply_preprocessing(df: pd.DataFrame, review_column: str ='review'):
         df.to_csv('data/preprocessed/preprocessed_dataset.csv', index=False)
         df.to_pickle('data/preprocessed/preprocessed_dataset.pkl')
         logger.info('Preprocessing completed. Data stored.')
+        return df
     except Exception as e:
         logger.error(f'Error while preprocessing: {e}')
 
 
 if __name__=='__main__':
-    
+    print('Start preprocessing the dataset.')
     check_and_download_nltk_resources()
     
     df = csv_reader('data/raw/imdb_dataset.csv')
-    apply_preprocessing(df=df)
+    df_preprocessed = apply_preprocessing(df=df)
+    print('Preprocessing finished:')
+    print(df_preprocessed.info())
     

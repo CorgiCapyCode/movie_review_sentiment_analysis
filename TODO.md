@@ -22,8 +22,6 @@
 
 - Compare the results and select the best algorithm
 
-
-
 - Create a simple container app, that reads in the review and outputs whether the review is good or bad
 
 
@@ -54,4 +52,12 @@ lemmatized_no_sw:   lemmatization with stop words removed
 https://medium.com/@abhishekrajs121098/complete-guide-for-supervised-learning-classification-machine-learning-a7ea4e9ff676
 
 
-Find a solution to store the large datasets!
+Find a solution to store the large datasets! 
+
+
+
+
+
+1. Implement SVM
+2. Implement Decision Trees
+3. Own ANN
