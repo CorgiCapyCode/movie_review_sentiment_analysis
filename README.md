@@ -45,8 +45,9 @@ The preprocessing consists of the following steps:
 
 There is a [function](src\preprocessing\read_data.py) available to convert the txt-file library to a single csv-file.
 
-[Data](data)  
 [Code](src\preprocessing\read_data.py)  
+[Data](data)  
+
 
 # **Data Preprocessing**
 
@@ -61,7 +62,17 @@ All are applied to the dataset:
 The lemmatization and the stemming are applied before and after the stop word removal.  
 For lemmatizaiton POS-tagging is applied to enhance the results.  
 
+The preprocessing results in six different tokenized columns:  
+- tokenized
+- no_stopwords
+- stemmed
+- lemmatized
+- stemmed_no_sw
+- lemmatized_no_sw
+
+The results are stored as PKL-file as well as CSV-file:  
 [Code](src\preprocessing\preprocessing.py)  
+[Data](data\preprocessed)   
 
 ## Vectorization
 Vectorization is applied using different methods:  
@@ -69,13 +80,34 @@ Vectorization is applied using different methods:
 - RoBERTa
 
 For Word2Vec a pre-trained model was used: [GoogleNews-vectors-negative300.bin.gz](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?resourcekey=0-wjGZdNAUop6WykTtMip30g)  
-The model weights for the pre-trained algorithm are excluded from this repo. Please download the latest weights 
+The model weights for the pre-trained algorithm are excluded from this repo. Please download the latest weights from the link above.
+
+Furthermore a self-trained version of Word2Vec is available: [Model weights for self-trained Word2Vec](src\preprocessing\vec_model_weights)  
+The model weights for RoBERTa are loaded from the transformers library.  
+No additional (transfer) training was conducted on the pre-trained models.  
+
+The vectorization results are summarized (generally based on average) for each review, so that each review has one vector per tokenized column.  
+The results are stored separately for each vectorization method as PKL as well as as CSV-file.  
 
 [Code](src\preprocessing\vectorization.py)  
-
-
+[Data](data\vectorized)
 
 # **Model Training**
+## Description of Input Data
+There are three different datasets available. One for each vectorization method.  
+- Word2Vec based on GoogleNews
+- Self-trained Word2Vec
+- pre-trained RoBERTa
+
+Each of the datasets contains six different columns with vectorized reviews. This results in 18 different inputs.  
+
+## Model Selection
+Three different models where chosen for the sentiment analysis:
+- Support Vector Machine
+- Decision Tree
+- Fully Connected Artificial Neural Network
+
+## Model Training
 
 
 # **Model Evaluation**
