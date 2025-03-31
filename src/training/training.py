@@ -22,17 +22,15 @@ logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
-def create_all_models(model_list: dict, dataset_paths: dict,  label_column: str, feature_columns: list, test_size: float =0.2, random_state: int =17, output_path: str ='data/training/models', results_path: str ='data/training'):
+def create_all_models(training_params: dict, dataset_paths: dict,  label_column: str, feature_columns: list, test_size: float =0.2, random_state: int =17, output_path: str ='data/training/models', results_path: str ='data/training'):
     """
     Trains and tests the specified models on the selected datasets.
     
     Args:
-        model_list: dict -> Dictionary of the model names that will be trained including their hyperparameters. Available: SVM, DT, ANN.
+        training_params: dict -> Dictionary of the model names that will be trained including their hyperparameters. Available: SVM, DT, ANN.
         dataset_paths: dict -> Dictionary containing the paths to the datasets.
         label_column: str -> Name of the column with the labels.
         feature_columns: list -> Names of the columns containing the vectorized data.
-        test_size: float =0.2 -> Defining the ratio between test and train data.
-        random_state: int =17 -> Defines the random state for reproducibility.
         output_path: str ='data/training/models' -> Location where the results are stored.
         results_path: str ='data/training' -> Location where the results are stored.
     """
@@ -47,7 +45,7 @@ def create_all_models(model_list: dict, dataset_paths: dict,  label_column: str,
         #print('Preparing datasets...')
         datasets = filter_columns(datasets=datasets, feature_columns=feature_columns, label_column=label_column)
         #print('...33%...')
-        datasets = split_datasets(datasets=datasets, test_size=test_size, random_state=random_state)
+        datasets = split_datasets(datasets=datasets, training_setup=training_params['training_setup'])
         #print('...66%...')
         datasets = pair_features_with_labels(datasets=datasets, feature_columns=feature_columns, label_column=label_column)
         #print('Preparation completed.')
@@ -56,32 +54,32 @@ def create_all_models(model_list: dict, dataset_paths: dict,  label_column: str,
         #datachecker_after_conversion(datasets=datasets)
     
 
-        if 'SVM' in model_list:
+        if 'SVM' in training_params:
             print('Start SVM model trainings.')
-            test_results['SVM'] = orchestrate(model_type='SVM', dataset_dict=datasets, hyperparameter= model_list['SVM'], output_path=output_path)
+            test_results['SVM'] = orchestrate(model_type='SVM', dataset_dict=datasets, hyperparameter= training_params['SVM'], output_path=output_path)
             print('SVM results')
             print(test_results['SVM'])
             print('-' * 50)
         
-        if 'DT' in model_list:
+        if 'DT' in training_params:
             print('Start Decision Tree model trainings.')
-            test_results['DT'] = orchestrate(model_type='DT', dataset_dict=datasets, hyperparameter= model_list['DT'], output_path=output_path)
+            test_results['DT'] = orchestrate(model_type='DT', dataset_dict=datasets, hyperparameter= training_params['DT'], output_path=output_path)
             print('DT results')
             print(test_results['DT'])
             print('-' * 50)
             
-        if 'ANN' in model_list:
+        if 'ANN' in training_params:
             print('Start ANN model training.')
-            test_results['ANN'] = orchestrate(model_type='ANN', dataset_dict=datasets, hyperparameter= model_list['ANN'], output_path=output_path)
+            test_results['ANN'] = orchestrate(model_type='ANN', dataset_dict=datasets, hyperparameter= training_params['ANN'], output_path=output_path)
             print('ANN results')
             print(test_results['ANN'])
             print('-' * 50)
         
-        save_results_as_json(results_path, test_results, models)
+        save_results_as_json(results_path, test_results, training_params)
 
         results_file = os.path.join(results_path, 'results_and_hyperparams.pkl')
         with open(results_file, 'wb') as file:
-            pickle.dump({'test_results': test_results, 'hyperparameters': model_list}, file)        
+            pickle.dump({'test_results': test_results, 'hyperparameters': training_params}, file)        
     
     except Exception as e:
         logger.error(f'Error while running training and testing of all models" {e}')
@@ -108,19 +106,20 @@ def filter_columns(datasets: dict, feature_columns: list, label_column: str) -> 
         return None
 
 
-def split_datasets(datasets: dict, test_size: float =0.2, random_state: int =17) -> dict:
+def split_datasets(datasets: dict, training_setup: dict) -> dict:
     """
     Function to split the datasets into training and testing.
     
     Args:
         datasets: dict -> Dictionary with the datasets.
-        test_size: float =0.2 -> Defining the ratio between test and train data.
-        random_state: int =17 -> Defines the random state for reproducibility.
+        training_setup: dict-> Dictionary containing the necessary information for training.
         
     Returns:
         dict -> Dictionary with a training and testing dataset as value.
     """
     try:
+        test_size = training_setup['test_size']
+        random_state = training_setup['random_state']
         return {name: train_test_split(df, test_size=test_size, random_state=random_state) for name, df in datasets.items()}
     except Exception as e:
         logger.error(f'Error while splitting the datasets: {e}')
@@ -155,9 +154,9 @@ def pair_features_with_labels(datasets: dict, feature_columns: list, label_colum
 
 def datachecker_after_conversion(datasets):
     for key, ((X_train, y_train), (X_test, y_test)) in datasets.items():
-        print(f"{key}:")
-        print(f"  Train - Features Shape: {X_train.shape}, Labels Shape: {y_train.shape}")
-        print(f"  Test  - Features Shape: {X_test.shape}, Labels Shape: {y_test.shape}")
+        print(f'{key}:')
+        print(f'Train - Features Shape: {X_train.shape}, Labels Shape: {y_train.shape}')
+        print(f'Test  - Features Shape: {X_test.shape}, Labels Shape: {y_test.shape}')
         print("-" * 50)    
 
 
@@ -388,21 +387,21 @@ def save_ann_model(model, output_path: str, name: str):
         logger.error(f'Error while saving the model: {e}')
  
 
-def save_results_as_json(results_path: str, test_results: dict, hyperparameters: dict):
+def save_results_as_json(results_path: str, test_results: dict, training_params: dict):
     """
     Saves test results and hyperparameters as JSON.
     
     Args:
         results_path: str -> Path to store the results.
         test_results: dict -> Dictionary of test results.
-        hyperparameters: dict -> Dictionary of model hyperparameters.
+        training_params: dict -> Dictionary of model hyperparameters.
     """
     try:
         results_file = os.path.join(results_path, 'results_and_hyperparams.json')
 
         results_data = {
             'test_results': test_results,
-            'hyperparameters': hyperparameters
+            'training_params': training_params
         }
 
         with open(results_file, 'w') as file:
@@ -434,6 +433,10 @@ if __name__=='__main__':
     ]
     
     models = {
+        'training_setup' : {
+            'test_size' : 0.9,
+            'random_state' : 17
+        },
         'SVM': {
             'kernel': 'rbf',
             'C': 1.0,
@@ -460,12 +463,10 @@ if __name__=='__main__':
     }
 
     create_all_models(
-        model_list=models,
+        training_params=models,
         dataset_paths=dataset_paths,
         label_column=label_column,
         feature_columns=feature_columns,
-        test_size=0.75,
-        random_state=17,
         output_path='data/training/models',
         results_path='data/training'
     )
