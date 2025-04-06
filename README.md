@@ -101,14 +101,26 @@ There are three different datasets available. One for each vectorization method.
 
 Each of the datasets contains six different columns with vectorized reviews. This results in 18 different inputs.  
 
-## Model Selection
+## ML Model Selection
 Three different models where chosen for the sentiment analysis:
 - Support Vector Machine
 - Decision Tree
 - Fully Connected Artificial Neural Network
 
-## Model Training
+## ML Model Training
+Considering the preprocessing and vectorization steps in total 54 models are possible (6 preprocessing steps x 3 vectorization methods x 3 ML approaches).  
 
+In the first round a small portion of the dataset was used to train the model (10%; 5,000 reviews).  
+In this round the hyperparameters for each model were fine-tuned.
+
+For the second round only the best performing approaches are selected:
+- The four best preprocessing methods.
+- The two best vectorization methods.  
+- The two best ML approaches.
+In this round 30% of the data was used for training.  
+All remaining models were fine-tuned.  
+
+For the third round the best approach was selected and fine-tuned using 80% of the dataset for training.
 
 # **Model Evaluation**
 

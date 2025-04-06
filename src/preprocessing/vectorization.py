@@ -140,10 +140,13 @@ def apply_word2vec(df: pd.DataFrame, token_columns: list, model, output_name: st
     
     except ValueError as v:
         logger.error(f'ValueError: {v}')
+        return None
     except TypeError as t:
         logger.error(f'TypeError: {t}')
+        return None
     except Exception as e:
         logger.error(f'Error while applying Word2Vec: {e}')
+        return None
   
 
 results = {}

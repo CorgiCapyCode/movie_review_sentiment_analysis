@@ -1,6 +1,7 @@
 import logging
 import nltk
 import pandas as pd
+import re
 import threading
 
 from nltk import pos_tag
@@ -92,7 +93,6 @@ def apply_stopword_removal(df: pd.DataFrame, tokenized_column:str = 'tokenized')
         logger.error(f'Error while removing stop words: {e}')
         
 
-
 def apply_lemmatization(df: pd.DataFrame, tokenized_column: str, output_column: str) -> None:
     """
     Applies POS-tagging and lemmatization.
@@ -142,6 +142,51 @@ def positive_negative_converter(df: pd.DataFrame, sentiment_column: str):
     df['sentiment_binary'] = df[sentiment_column].apply(lambda x: 1 if x == 'positive' else 0)
 
 
+def remove_br_tags(df: pd.DataFrame, review_column: str ='review') -> pd.DataFrame:
+    """
+    Removes the <br /> tags from the text.
+    
+    Args:
+        df: pd.DataFrame -> Dataframe containing the reviews.
+        review_column: str = 'review' -> Name of the column containing the reviews.    
+    
+    Returns
+        pd.Dataframe -> Dataset without the tags.
+    """
+    try:
+        pattern = r'<br\s*/?>'  # for <br>, <br/> and <br /> tags
+        removed_tags = df[review_column].str.count(pattern, flags=re.IGNORECASE).sum()
+        df[review_column] = df[review_column].str.replace(pattern, ' ', flags=re.IGNORECASE, regex=True)
+        logger.info(f'Removed {removed_tags} tags from the text.')
+        print(f'Tags removed: {removed_tags}')
+        return df        
+    except Exception as e:
+        logger.error(f'Error while removing <br /> tags: {e}')
+        return None
+
+
+def lower_casing(df: pd.DataFrame, review_column: str ='review') -> pd.DataFrame:
+    """
+    Writes everything in lower case.
+    
+    Args:
+        df: pd.DataFrame -> Dataframe containing the reviews.
+        review_column: str = 'review' -> Name of the column containing the reviews.    
+    
+    Returns
+        pd.Dataframe -> Dataset with lower cases only.
+    """
+    try:
+        df[review_column] = df[review_column].str.lower()
+        logger.info('Removed any upper case')
+        return df
+    
+    except Exception as e:
+        logger.error(f'Error while converting everything to lower case: {e}')
+        return None
+    
+    
+
 def apply_preprocessing(df: pd.DataFrame, review_column: str ='review'):
     """
     Applies preprocessing of the reviews and saves the results to a new csv-file.
@@ -151,6 +196,8 @@ def apply_preprocessing(df: pd.DataFrame, review_column: str ='review'):
         review_column: str = 'review' -> Name of the column containing the reviews.
     """
     try:
+        df = remove_br_tags(df=df, review_column='review')
+        df = lower_casing(df=df, review_column='review')
         df = apply_treebank_tokenization(df=df)
         df = apply_stopword_removal(df=df)
         
