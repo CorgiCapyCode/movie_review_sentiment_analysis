@@ -104,7 +104,7 @@ Each of the datasets contains six different columns with vectorized reviews. Thi
 ## ML Model Selection
 Three different models where chosen for the sentiment analysis:
 - Support Vector Machine
-- Decision Tree
+- Random Forest
 - Fully Connected Artificial Neural Network
 
 ## ML Model Training

@@ -10,7 +10,7 @@ from src.preprocessing.read_data import pickle_reader
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Input, Dropout
 from tensorflow.keras.optimizers import Adam
@@ -27,7 +27,7 @@ def create_all_models(training_params: dict, dataset_paths: dict,  label_column:
     Trains and tests the specified models on the selected datasets.
     
     Args:
-        training_params: dict -> Dictionary of the model names that will be trained including their hyperparameters. Available: SVM, DT, ANN.
+        training_params: dict -> Dictionary of the model names that will be trained including their hyperparameters. Available: SVM, RF, ANN.
         dataset_paths: dict -> Dictionary containing the paths to the datasets.
         label_column: str -> Name of the column with the labels.
         feature_columns: list -> Names of the columns containing the vectorized data.
@@ -61,11 +61,11 @@ def create_all_models(training_params: dict, dataset_paths: dict,  label_column:
             print(test_results['SVM'])
             print('-' * 50)
         
-        if 'DT' in training_params:
+        if 'RF' in training_params:
             print('Start Decision Tree model trainings.')
-            test_results['DT'] = orchestrate(model_type='DT', dataset_dict=datasets, hyperparameter= training_params['DT'], output_path=output_path)
-            print('DT results')
-            print(test_results['DT'])
+            test_results['RF'] = orchestrate(model_type='RF', dataset_dict=datasets, hyperparameter= training_params['RF'], output_path=output_path)
+            print('RF results')
+            print(test_results['RF'])
             print('-' * 50)
             
         if 'ANN' in training_params:
@@ -165,13 +165,13 @@ def orchestrate(model_type: str, dataset_dict: dict, hyperparameter: dict, outpu
     Orchestrates the training of the SVM or DT models. Saves the models.
     
     Args:
-        model_type: str -> The model type to be trained: SVM or DT
+        model_type: str -> The model type to be trained: SVM, RF or ANN
         dataset_dict: dict ->  Dictionary with the data.
-        hyperparameters: dict -> Dictionary with the hyperparameters needed for training of the SVM.
+        hyperparameters: dict -> Dictionary with the hyperparameters needed for training.
         output_path: str ='data/training/models' -> Path to the directory where the models are stored.
         
     Returns:
-        test_results: dict -> All test results of the SVM models created.
+        test_results: dict -> All test results.
     """
     try:
         test_results = {}
@@ -180,10 +180,10 @@ def orchestrate(model_type: str, dataset_dict: dict, hyperparameter: dict, outpu
             print(f'Name of the model to be trained: {name}')
             if model_type=='SVM':
                 model = train_svm(X_train=train_data[0], y_train=train_data[1], hp=hyperparameter)
-                save_svm_dt_model(model=model, output_path=output_path, name=f'{name}_svm')
-            elif model_type=='DT':
-                model = train_dt(X_train=train_data[0], y_train=train_data[1], hp=hyperparameter)
-                save_svm_dt_model(model=model, output_path=output_path, name=f'{name}_dt')
+                save_svm_rf_model(model=model, output_path=output_path, name=f'{name}_svm')
+            elif model_type=='RF':
+                model = train_rf(X_train=train_data[0], y_train=train_data[1], hp=hyperparameter)
+                save_svm_rf_model(model=model, output_path=output_path, name=f'{name}_rf')
             elif model_type=='ANN':
                 model = train_ann(X_train=train_data[0], y_train=train_data[1], hp=hyperparameter)
                 save_ann_model(model=model, output_path=output_path, name=f'{name}_ann')
@@ -193,7 +193,7 @@ def orchestrate(model_type: str, dataset_dict: dict, hyperparameter: dict, outpu
             
             results = test_model(X_test=test_data[0], y_test=test_data[1], model=model)
             test_results[name] = results
-            logger.info('Model training and testing for all SVMs completed.')
+            logger.info('Model training and testing for all models completed.')
         
         return test_results
 
@@ -233,12 +233,13 @@ def train_svm(X_train: np.ndarray, y_train: np.ndarray, hp: dict) -> SVC:
         return None
 
 
-def train_dt(X_train: np.ndarray, y_train: np.ndarray, hp: dict):
+def train_rf(X_train: np.ndarray, y_train: np.ndarray, hp: dict):
     """
-    Trains a Decision Tree model as specified.
+    Trains a Random Forest model as specified.
     Hyperparameters:
-        criterion: str -> DecisionTreeClassifier default value: 'gini'
-        max_depth: int or None -> DecisionTreeClassifier default value: None
+        n_estimators: int -> Number of trees in the forest.
+        criterion: str -> Quality measurement,  default value: 'gini'
+        max_depth: int or None -> Maximum depth of the tree, default value: None
     
     Args:
         X_train: np.ndarray -> The data array with the training features.
@@ -250,12 +251,12 @@ def train_dt(X_train: np.ndarray, y_train: np.ndarray, hp: dict):
     """
     try:
         X_train = np.vstack(X_train[:, 0])
-        model = DecisionTreeClassifier(**hp)
+        model = RandomForestClassifier(**hp)
         model.fit(X_train, y_train)
-        logger.info('DecisionTreeClassifier trained.')
+        logger.info('RandomForestClassifier trained.')
         return model
     except Exception as e:
-        logger.error(f'Error while training the decision tree" {e}')
+        logger.error(f'Error while training the random forest" {e}')
         return None
 
 
@@ -347,7 +348,7 @@ def test_model(X_test: np.ndarray, y_test: np.ndarray, model):
         return None
 
 
-def save_svm_dt_model(model, output_path: str, name: str):
+def save_svm_rf_model(model, output_path: str, name: str):
     """
     Saves the model under the given path.
     
@@ -442,12 +443,11 @@ if __name__=='__main__':
             'C': 1.0,
             'gamma': 'scale'
         },
-        'DT': {
+        'RF': {
+            'n_estimators': 100,
             'criterion': 'gini',
-            'max_depth': None,
-            'min_samples_split': 2,
-            'min_samples_leaf': 1,
-            'max_features': None
+            'max_depth': 5,
+            'random_state': 17
         },
         'ANN': {
             'hidden_units': [128, 64],
@@ -461,6 +461,44 @@ if __name__=='__main__':
             'early_stopping': True,
         }
     }
+
+
+
+    ### TEST SECTION ONLY:
+
+    dataset_paths = {
+        'google_word2vec': 'data/vectorized/google_news_word2vec.pkl',
+        'self_trained_word2vec': 'data/vectorized/self_trained_word2vec.pkl',
+        'roberta' : 'data/vectorized/roberta_vecs.pkl'   
+    }
+    
+    label_column = 'sentiment_binary'
+    
+    feature_columns = [
+    'review_vector_tokenized',
+    'review_vector_no_stopwords',
+    'review_vector_stemmed_no_sw',
+    'review_vector_stemmed',
+    'review_vector_lemmatized',
+    'review_vector_lemmatized_no_sw'    
+    ]
+
+
+    models = {
+        'training_setup' : {
+            'test_size' : 0.9,
+            'random_state' : 17
+        },
+        'RF': {
+            'n_estimators': 100,
+            'criterion': 'gini',
+            'max_depth': 5,
+            'random_state': 17
+        }
+    }
+
+
+
 
     create_all_models(
         training_params=models,
