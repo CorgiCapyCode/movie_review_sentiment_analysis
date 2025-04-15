@@ -22,6 +22,7 @@ if __name__=='__main__':
   
   print('Finished preprocessing.')
   print(df_preprocessed.info())
+  
   # Word Vectorization
   print('Starting vectorization.')
   columns_with_tokens = [
@@ -51,4 +52,58 @@ if __name__=='__main__':
   df_with_roberta = apply_roberta(df=df_for_roberta, token_columns=columns_with_tokens, use_cuda=True, output_name='roberta_vecs', drop_tokens=True)
   
   # Model Training
+  label_column = 'sentiment_binary'
   
+  feature_columns = [
+    'review_vector_tokenized',
+    'review_vector_no_stopwords',
+    'review_vector_stemmed_no_sw',
+    'review_vector_stemmed',
+    'review_vector_lemmatized',
+    'review_vector_lemmatized_no_sw'    
+    ]
+  
+  models = {
+        'training_setup' : {
+            'test_size' : 0.99,
+            'random_state' : 17
+        },
+        'SVM': {
+            'kernel': 'rbf',
+            'C': 1.0,
+            'gamma': 'scale'
+        },
+        'RF': {
+            'n_estimators': 100,
+            'criterion': 'gini',
+            'max_depth': 5,
+            'random_state': 17
+        },
+        'ANN': {
+            'hidden_units': [128, 64],
+            'activation': 'relu',
+            'learning_rate': 0.001,
+            'epochs': 30,
+            'batch_size': 64,
+            'dropout': 0.3,
+            'optimizer': 'adam',
+            'regularization': {'l2': 0.001},
+            'early_stopping': True,
+        }
+    }
+  
+  dataset_paths = {
+        'google_word2vec': 'data/vectorized/google_news_word2vec.pkl',
+        'self_trained_word2vec': 'data/vectorized/self_trained_word2vec.pkl',
+        'roberta' : 'data/vectorized/roberta_vecs.pkl'   
+    }
+  
+  print('Start training the models.')
+  create_all_models(
+        training_params=models,
+        dataset_paths=dataset_paths,
+        label_column=label_column,
+        feature_columns=feature_columns,
+        output_path='data/training/models',
+        results_path='data/training'
+    )

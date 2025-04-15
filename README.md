@@ -2,7 +2,7 @@
 
 ## Table of Content
 
-1. [**Background Information**](#background-information)
+1. [**Introduction**](#background-information)
 2. [**Methodology**](#methodology)
 3. [**Data and Information Extraction**](#data-and-information-extraction)
 4. [**Data Preprocessing**](#data-preprocessing)
@@ -43,7 +43,8 @@ The preprocessing consists of the following steps:
 - Summarizing the txt-files to one csv-file.
 - Replacing the rating (1-10) with a binary classifier (positive/negative)
 
-There is a [function](src\preprocessing\read_data.py) available to convert the txt-file library to a single csv-file.
+There is a [function](src\preprocessing\read_data.py) available to convert the txt-file library to a single csv-file.  
+Please check the required file structure, described in the code.  
 
 [Code](src\preprocessing\read_data.py)  
 [Data](data)  
@@ -54,12 +55,12 @@ There is a [function](src\preprocessing\read_data.py) available to convert the t
 ## Preprocessing
 There are four typical preprocessing tasks.  
 - Tokenization
-- Stop Word Removal
+- Stop-Word Removal
 - Lemmatization
 - Stemming
 
 All are applied to the dataset:  
-The lemmatization and the stemming are applied before and after the stop word removal.  
+The lemmatization and the stemming are applied before and after the stop-word removal.  
 For lemmatizaiton POS-tagging is applied to enhance the results.  
 
 The preprocessing results in six different tokenized columns:  
@@ -86,7 +87,8 @@ Furthermore a self-trained version of Word2Vec is available: [Model weights for 
 The model weights for RoBERTa are loaded from the transformers library.  
 No additional (transfer) training was conducted on the pre-trained models.  
 
-The vectorization results are summarized (generally based on average) for each review, so that each review has one vector per tokenized column.  
+The vectorization results are aggregated (based on average) for each review, so that each review has one vector per tokenized column.  
+The weights are stored [here](src\preprocessing\vec_model_weights).  
 The results are stored separately for each vectorization method as PKL as well as as CSV-file.  
 
 [Code](src\preprocessing\vectorization.py)  
@@ -114,7 +116,7 @@ In the first round a small portion of the dataset was used to train the model (1
 In this round the hyperparameters for each model were fine-tuned.
 
 For the second round only the best performing approaches are selected:
-- The four best preprocessing methods.
+- The two best preprocessing methods.
 - The two best vectorization methods.  
 - The two best ML approaches.
 In this round 30% of the data was used for training.  
@@ -123,10 +125,30 @@ All remaining models were fine-tuned.
 For the third round the best approach was selected and fine-tuned using 80% of the dataset for training.
 
 # **Model Evaluation**
+The models are evaluated based on the following metrics:  
+- Accuracy
+- F1-Score
+- Recall
+- Precision
 
-
-# **Classification Application**
-
+The results contain the confusion matrix as well.  
+Note: The test-size of the dataset is always the remaining data. That means for the first round 90% of the dataset was used to test, while in the last round only 20% was used.  
 
 # **Using This Repository**
+The pipeline consists of the following steps, which can be executed individually:
+- [Preprocessing](src\preprocessing\preprocessing.py)
+- [Vectorization](src\preprocessing\vectorization.py)
+- [Training & Testing](src\training\training.py)
 
+To run all of the process a main is also available:
+- [main.py](main.py)
+
+In order to run the selection process as described in Methodology, it is recommended to run the training and testing process alone, since the preprocessing and vectorization should not change.  
+Running the main.py for every iteration, increases the computational costs. 
+
+Please check the default paths used and ensure that the required data is available.  
+Minimum data required:  
+- imdb_dataset.csv in data\raw
+- GoogleNews-vectors-negative300.bin in src\preprocessing\vec_model_weights
+
+Then follow the pipeline (recommended) or run main.py. 

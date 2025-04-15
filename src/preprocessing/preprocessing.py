@@ -8,7 +8,11 @@ from nltk import pos_tag
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 from nltk.tokenize import TreebankWordTokenizer
-from read_data import csv_reader
+
+try:
+    from read_data import csv_reader
+except ImportError:
+    from src.preprocessing.read_data import csv_reader
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

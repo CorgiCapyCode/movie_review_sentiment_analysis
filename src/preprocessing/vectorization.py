@@ -8,8 +8,13 @@ import threading
 import torch
 
 from gensim.models import KeyedVectors, Word2Vec
-from read_data import pickle_reader
 from transformers import RobertaTokenizer, RobertaModel
+
+try:
+    from read_data import pickle_reader
+except ImportError:
+    from src.preprocessing.read_data import pickle_reader
+    
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)

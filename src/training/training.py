@@ -4,9 +4,9 @@ import numpy as np
 import os
 import pandas as pd
 import pickle
+import sys
 import tensorflow
 
-from src.preprocessing.read_data import pickle_reader
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -16,6 +16,11 @@ from tensorflow.keras.layers import Dense, Input, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.callbacks import EarlyStopping
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from src.preprocessing.read_data import pickle_reader
+
 
 
 logging.basicConfig(level=logging.WARNING)
@@ -39,18 +44,19 @@ def create_all_models(training_params: dict, dataset_paths: dict,  label_column:
         test_results = {}
         
         for dataset_name, dataset_path in dataset_paths.items():
+            print(f'Loading dataset: {dataset_name}')
             df = pickle_reader(dataset_path)
             datasets[dataset_name] = df
         
-        #print('Preparing datasets...')
+        print('Preparing datasets...')
         datasets = filter_columns(datasets=datasets, feature_columns=feature_columns, label_column=label_column)
-        #print('...33%...')
+        print('...33%...')
         datasets = split_datasets(datasets=datasets, training_setup=training_params['training_setup'])
-        #print('...66%...')
+        print('...66%...')
         datasets = pair_features_with_labels(datasets=datasets, feature_columns=feature_columns, label_column=label_column)
-        #print('Preparation completed.')
+        print('Preparation completed.')
 
-        # Only to check the structure for of the dataset.
+        # Only to check the structure of the dataset.
         #datachecker_after_conversion(datasets=datasets)
     
 
@@ -220,12 +226,12 @@ def train_svm(X_train: np.ndarray, y_train: np.ndarray, hp: dict) -> SVC:
     """
     try:
         X_train = np.vstack(X_train[:, 0])
+        y_train_svm = np.where(y_train == 0, -1, 1)        
         #print(f"X_train shape: {X_train.shape}, type: {type(X_train)}")
         #print(f"y_train shape: {y_train.shape}, type: {type(y_train)}")
 
-
         model =  SVC(**hp)
-        model.fit(X_train, y_train)
+        model.fit(X_train, y_train_svm)
         logger.info('SVM model trained.')
         return model
     except Exception as e:
@@ -335,6 +341,9 @@ def test_model(X_test: np.ndarray, y_test: np.ndarray, model):
         predictions = model.predict(X_test)
         binary_predictions = (predictions > 0.5).astype(int)
         
+        #print('Binary predictions:')
+        #print(binary_predictions)
+        
         results = {
             'accuracy' : accuracy_score(y_test, binary_predictions),
             'f1_score' : f1_score(y_test, binary_predictions, average='weighted'),
@@ -370,7 +379,7 @@ def save_svm_rf_model(model, output_path: str, name: str):
 
 def save_ann_model(model, output_path: str, name: str):
     """
-    Saves the ANN model under the given path in HDF5 format.
+    Saves the ANN model under the given path in KERAS format.
     
     Args:
         model -> The ANN model to be saved.
@@ -463,48 +472,11 @@ if __name__=='__main__':
     }
 
 
-
-    ### TEST SECTION ONLY:
-
-    dataset_paths = {
-        'google_word2vec': 'data/vectorized/google_news_word2vec.pkl',
-        'self_trained_word2vec': 'data/vectorized/self_trained_word2vec.pkl',
-        'roberta' : 'data/vectorized/roberta_vecs.pkl'   
-    }
-    
-    label_column = 'sentiment_binary'
-    
-    feature_columns = [
-    'review_vector_tokenized',
-    'review_vector_no_stopwords',
-    'review_vector_stemmed_no_sw',
-    'review_vector_stemmed',
-    'review_vector_lemmatized',
-    'review_vector_lemmatized_no_sw'    
-    ]
-
-
-    models = {
-        'training_setup' : {
-            'test_size' : 0.9,
-            'random_state' : 17
-        },
-        'RF': {
-            'n_estimators': 100,
-            'criterion': 'gini',
-            'max_depth': 5,
-            'random_state': 17
-        }
-    }
-
-
-
-
     create_all_models(
         training_params=models,
         dataset_paths=dataset_paths,
         label_column=label_column,
         feature_columns=feature_columns,
         output_path='data/training/models',
-        results_path='data/training'
+        results_path='data/training/phase_1'
     )
