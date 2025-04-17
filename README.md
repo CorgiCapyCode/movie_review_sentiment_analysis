@@ -3,19 +3,24 @@
 ## Table of Content
 
 1. [**Introduction**](#background-information)
-2. [**Methodology**](#methodology)
-3. [**Data and Information Extraction**](#data-and-information-extraction)
-4. [**Data Preprocessing**](#data-preprocessing)
-5. [**Model Training**](#model-training)
-6. [**Model Evaluation**](#model-evaluation)
-7. [**Classification Application**](#classification-application)
-8. [**Using This Repository**](#using-this-repository)
+2. [**Data and Information Extraction**](#data-and-information-extraction)
+3. [**Data Preprocessing**](#data-preprocessing)
+4. [**Model Training**](#model-training)
+5. [**Model Evaluation**](#model-evaluation)
+6. [**Classification Application**](#classification-application)
+7. [**Using This Repository**](#using-this-repository)
+8. [**Result Structure**](#result-structure)
 
-# **Background Information**
+# **Introduction**
+This project is about sentiment classification of the IMDb Dataset of Movie Reviews.  
+It contains modules for preprocessing the dataset, review vectorization and model training.  
+Different approaches for each of the modules mentioned above were combined, trained and evaluated.  
+The model weights of the best performing model are stored and can be downloaded separately. [Link to Download](data/training/models)  
 
+The following resources need to be downloaded separately:  
+[GoogleNews-vectors-negative300.bin.gz](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?resourcekey=0-wjGZdNAUop6WykTtMip30g)  
 
-# **Methodology**
-
+please store in: [src\preprocessing\vec_model_weights](src\preprocessing\vec_model_weights)
 
 # **Data and Information Extraction**
 
@@ -112,17 +117,18 @@ Three different models where chosen for the sentiment analysis:
 ## ML Model Training
 Considering the preprocessing and vectorization steps in total 54 models are possible (6 preprocessing steps x 3 vectorization methods x 3 ML approaches).  
 
-In the first round a small portion of the dataset was used to train the model (10%; 5,000 reviews).  
-In this round the hyperparameters for each model were fine-tuned.
+In the first phase a small portion of the dataset was used to train the model (10%; 5,000 reviews).  
+In this phase the hyperparameters for each model were fine-tuned in three rounds.  
 
-For the second round only the best performing approaches are selected:
+For the second phase only the best performing approaches are selected:
 - The two best preprocessing methods.
 - The two best vectorization methods.  
 - The two best ML approaches.
-In this round 30% of the data was used for training.  
+In this phase 30% of the data was used for training.  
 All remaining models were fine-tuned.  
 
-For the third round the best approach was selected and fine-tuned using 80% of the dataset for training.
+For the third phase the best approach was selected and fine-tuned using 80% of the dataset for training.  
+
 
 # **Model Evaluation**
 The models are evaluated based on the following metrics:  
@@ -130,6 +136,10 @@ The models are evaluated based on the following metrics:
 - F1-Score
 - Recall
 - Precision
+
+The selection process followed these steps:
+1. Rank all results of a phase from highest to lowest accuracy.  
+2. Select the best two methods (first appearing ones) for the three components: preprocessing, vectorization and classifier.
 
 The results contain the confusion matrix as well.  
 Note: The test-size of the dataset is always the remaining data. That means for the first round 90% of the dataset was used to test, while in the last round only 20% was used.  
@@ -143,12 +153,34 @@ The pipeline consists of the following steps, which can be executed individually
 To run all of the process a main is also available:
 - [main.py](main.py)
 
-In order to run the selection process as described in Methodology, it is recommended to run the training and testing process alone, since the preprocessing and vectorization should not change.  
+It is recommended to run the training and testing process alone (not via main.py), since the preprocessing and vectorization results should not change.  
 Running the main.py for every iteration, increases the computational costs. 
 
 Please check the default paths used and ensure that the required data is available.  
-Minimum data required:  
+**Minimum data required:**  
 - imdb_dataset.csv in data\raw
 - GoogleNews-vectors-negative300.bin in src\preprocessing\vec_model_weights
 
 Then follow the pipeline (recommended) or run main.py. 
+
+# **Result Structure**
+When all data is stored in the default locations and the experiments have been conducted the results of each step should be stored as follows:  
+
+
+|            |            |            |            |Description |Input for...|
+|------------|------------|------------|------------|------------|------------|
+|data|
+| | -- preprocessed | | | Contains the results of the preprocessing steps. | | 
+| | | -- preprocessed_dataset.csv / .pkl | | Preprocessed dataset as described in Preprocessing. | Used for vectorization. | 
+| | | -- token_histogram_original.png | | Visualization of the token length distribution. | | 
+| | -- raw | | | Contains the raw data. | | 
+| | | -- imdb_dataset.csv | | Dataset downloaded from Kaggle. | Used for preprocessing. | 
+| | -- training | | | Contains the results of the training process. | | 
+| | | -- models | | Contains the model weights. | |
+| | | | -- roberta_review_vector_tokenized_ann.keras | The final results. Model: Preprocessing: Tokenized, Vectorization: Preprocessed RoBERTa, Classifier: ANN | |
+| | | -- phase_x | | Contains the documentation of phase x in three rounds. | |
+| | | | -- phase_x_accuracy_histogram.png | Visualization of model accuracies over the three rounds of the phase. | |
+| | | | -- phase_x_all_results.csv | Aggregation of all results in one file. | |
+| | | | -- results_and_hyperparameters_ry.csv / .json / .pkl | The results of the round for each trained model, includes the training setup (hyperparameters and random state) | |
+| | -- vectorized | | | Contains the results of the vectorization process. | |
+| | | -- approach.csv / .pkl | | Results of the vectorization per method. | Used for training. | 

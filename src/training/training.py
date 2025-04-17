@@ -425,52 +425,117 @@ def save_results_as_json(results_path: str, test_results: dict, training_params:
 
 if __name__=='__main__':
     
-    dataset_paths = {
-        'google_word2vec': 'data/vectorized/google_news_word2vec.pkl',
-        'self_trained_word2vec': 'data/vectorized/self_trained_word2vec.pkl',
-        'roberta' : 'data/vectorized/roberta_vecs.pkl'   
-    }
+    phase_1 = False
+    phase_2 = False
+    phase_3 = True
     
-    label_column = 'sentiment_binary'
+    label_column = 'sentiment_binary'    
     
-    feature_columns = [
-    'review_vector_tokenized',
-    'review_vector_no_stopwords',
-    'review_vector_stemmed_no_sw',
-    'review_vector_stemmed',
-    'review_vector_lemmatized',
-    'review_vector_lemmatized_no_sw'    
-    ]
-    
-    models = {
-        'training_setup' : {
-            'test_size' : 0.9,
-            'random_state' : 17
-        },
-        'SVM': {
-            'kernel': 'rbf',
-            'C': 1.0,
-            'gamma': 'scale'
-        },
-        'RF': {
-            'n_estimators': 100,
-            'criterion': 'gini',
-            'max_depth': 5,
-            'random_state': 17
-        },
-        'ANN': {
-            'hidden_units': [128, 64],
-            'activation': 'relu',
-            'learning_rate': 0.001,
-            'epochs': 30,
-            'batch_size': 64,
-            'dropout': 0.3,
-            'optimizer': 'adam',
-            'regularization': {'l2': 0.001},
-            'early_stopping': True,
+    if phase_1:
+        dataset_paths = {
+            'google_word2vec': 'data/vectorized/google_news_word2vec.pkl',
+            'self_trained_word2vec': 'data/vectorized/self_trained_word2vec.pkl',
+            'roberta' : 'data/vectorized/roberta_vecs.pkl'   
         }
-    }
+        
+        feature_columns = [
+        'review_vector_tokenized',
+        'review_vector_no_stopwords',
+        'review_vector_stemmed_no_sw',
+        'review_vector_stemmed',
+        'review_vector_lemmatized',
+        'review_vector_lemmatized_no_sw'    
+        ]
+        
+        models = {
+            'training_setup' : {
+                'test_size' : 0.9,
+                'random_state' : 51
+            },
+            'SVM': {
+                'kernel': 'rbf',
+                'C': 1.8,
+                'gamma': 'scale'
+            },
+            'RF': {
+                'n_estimators': 400,
+                'criterion': 'gini',
+                'max_depth': None,
+                'random_state': 51
+            },
+            'ANN': {
+                'hidden_units': [128, 64, 32],
+                'activation': 'relu',
+                'learning_rate': 0.001,
+                'epochs': 30,
+                'batch_size': 16,
+                'dropout': 0.35,
+                'optimizer': 'adam',
+                'regularization': {'l2': 0.001},
+                'early_stopping': True,
+            }
+        }
 
+    if phase_2:
+        dataset_paths = {
+            'self_trained_word2vec': 'data/vectorized/self_trained_word2vec.pkl',
+            'roberta' : 'data/vectorized/roberta_vecs.pkl'   
+        }
+        
+        feature_columns = [
+        'review_vector_tokenized',
+        'review_vector_lemmatized',   
+        ]
+        
+        models = {
+            'training_setup' : {
+                'test_size' : 0.7,
+                'random_state' : 982
+            },
+            'SVM': {
+                'kernel': 'rbf',
+                'C': 1.9,
+                'gamma': 'auto'
+            },
+            'ANN': {
+                'hidden_units': [128, 64, 32],
+                'activation': 'relu',
+                'learning_rate': 0.002,
+                'epochs': 40,
+                'batch_size': 8,
+                'dropout': 0.30,
+                'optimizer': 'adam',
+                'regularization': {'l2': 0.001},
+                'early_stopping': True,
+            }
+        }        
+
+    if phase_3:
+        dataset_paths = {
+            'roberta' : 'data/vectorized/roberta_vecs.pkl'   
+        }
+        
+        feature_columns = [
+        'review_vector_tokenized',   
+        ]
+        
+        models = {
+            'training_setup' : {
+                'test_size' : 0.2,
+                'random_state' : 654
+            },
+            'ANN': {
+                'hidden_units': [128, 64, 32],
+                'activation': 'relu',
+                'learning_rate': 0.0001,
+                'epochs': 240,
+                'batch_size': 16,
+                'dropout': 0.28,
+                'optimizer': 'adam',
+                'regularization': {'l2': 0.001},
+                'early_stopping': True,
+            }
+        } 
 
     create_all_models(
         training_params=models,
@@ -478,5 +543,5 @@ if __name__=='__main__':
         label_column=label_column,
         feature_columns=feature_columns,
         output_path='data/training/models',
-        results_path='data/training/phase_1'
+        results_path='data/training/phase_3'
     )

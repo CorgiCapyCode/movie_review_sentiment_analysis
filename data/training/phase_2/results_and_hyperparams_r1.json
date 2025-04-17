@@ -1,0 +1,164 @@
+{
+    "test_results": {
+        "SVM": {
+            "self_trained_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8871428571428571,
+                "f1_score": 0.887142988702165,
+                "recall": 0.8871428571428571,
+                "precision": 0.8871456752328004,
+                "confusion_matrix": [
+                    [
+                        15542,
+                        1996
+                    ],
+                    [
+                        1954,
+                        15508
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.8834285714285715,
+                "f1_score": 0.8834275573955922,
+                "recall": 0.8834285714285715,
+                "precision": 0.883458137387399,
+                "confusion_matrix": [
+                    [
+                        15424,
+                        2114
+                    ],
+                    [
+                        1966,
+                        15496
+                    ]
+                ]
+            },
+            "roberta_review_vector_tokenized": {
+                "accuracy": 0.8771428571428571,
+                "f1_score": 0.8771295661423565,
+                "recall": 0.8771428571428571,
+                "precision": 0.8773501048604208,
+                "confusion_matrix": [
+                    [
+                        15186,
+                        2352
+                    ],
+                    [
+                        1948,
+                        15514
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized": {
+                "accuracy": 0.8724857142857143,
+                "f1_score": 0.8724835535994692,
+                "recall": 0.8724857142857143,
+                "precision": 0.8725312084227672,
+                "confusion_matrix": [
+                    [
+                        15213,
+                        2325
+                    ],
+                    [
+                        2138,
+                        15324
+                    ]
+                ]
+            }
+        },
+        "ANN": {
+            "self_trained_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8792285714285715,
+                "f1_score": 0.8792182996454886,
+                "recall": 0.8792285714285715,
+                "precision": 0.8793972385507888,
+                "confusion_matrix": [
+                    [
+                        15243,
+                        2295
+                    ],
+                    [
+                        1932,
+                        15530
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.8774,
+                "f1_score": 0.877370190864954,
+                "recall": 0.8774,
+                "precision": 0.8777118339386807,
+                "confusion_matrix": [
+                    [
+                        15647,
+                        1891
+                    ],
+                    [
+                        2400,
+                        15062
+                    ]
+                ]
+            },
+            "roberta_review_vector_tokenized": {
+                "accuracy": 0.8984285714285715,
+                "f1_score": 0.8984131434583039,
+                "recall": 0.8984285714285715,
+                "precision": 0.8987233011484842,
+                "confusion_matrix": [
+                    [
+                        15525,
+                        2013
+                    ],
+                    [
+                        1542,
+                        15920
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized": {
+                "accuracy": 0.8929428571428571,
+                "f1_score": 0.8929370297641599,
+                "recall": 0.8929428571428571,
+                "precision": 0.8930615639316041,
+                "confusion_matrix": [
+                    [
+                        15515,
+                        2023
+                    ],
+                    [
+                        1724,
+                        15738
+                    ]
+                ]
+            }
+        }
+    },
+    "training_params": {
+        "training_setup": {
+            "test_size": 0.7,
+            "random_state": 121
+        },
+        "SVM": {
+            "kernel": "rbf",
+            "C": 1.9,
+            "gamma": "scale"
+        },
+        "ANN": {
+            "hidden_units": [
+                128,
+                64,
+                32
+            ],
+            "activation": "relu",
+            "learning_rate": 0.001,
+            "epochs": 30,
+            "batch_size": 16,
+            "dropout": 0.3,
+            "optimizer": "adam",
+            "regularization": {
+                "l2": 0.001
+            },
+            "early_stopping": true
+        }
+    }
+}

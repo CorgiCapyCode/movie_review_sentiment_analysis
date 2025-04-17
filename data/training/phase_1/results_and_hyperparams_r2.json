@@ -1,0 +1,908 @@
+{
+    "test_results": {
+        "SVM": {
+            "google_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8418888888888889,
+                "f1_score": 0.8418750006001521,
+                "recall": 0.8418888888888889,
+                "precision": 0.8420199504938872,
+                "confusion_matrix": [
+                    [
+                        18739,
+                        3776
+                    ],
+                    [
+                        3339,
+                        19146
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_no_stopwords": {
+                "accuracy": 0.8426,
+                "f1_score": 0.8425793192739343,
+                "recall": 0.8426,
+                "precision": 0.8427933926351595,
+                "confusion_matrix": [
+                    [
+                        18708,
+                        3807
+                    ],
+                    [
+                        3276,
+                        19209
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_stemmed_no_sw": {
+                "accuracy": 0.8052888888888889,
+                "f1_score": 0.8052231268516958,
+                "recall": 0.8052888888888889,
+                "precision": 0.8057218650036084,
+                "confusion_matrix": [
+                    [
+                        17713,
+                        4802
+                    ],
+                    [
+                        3960,
+                        18525
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_stemmed": {
+                "accuracy": 0.8060888888888889,
+                "f1_score": 0.8060831623766039,
+                "recall": 0.8060888888888889,
+                "precision": 0.8061312600603492,
+                "confusion_matrix": [
+                    [
+                        18022,
+                        4493
+                    ],
+                    [
+                        4233,
+                        18252
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.8376,
+                "f1_score": 0.8375851191992041,
+                "recall": 0.8376,
+                "precision": 0.837734845524226,
+                "confusion_matrix": [
+                    [
+                        18638,
+                        3877
+                    ],
+                    [
+                        3431,
+                        19054
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8373777777777778,
+                "f1_score": 0.8373519740601995,
+                "recall": 0.8373777777777778,
+                "precision": 0.8376064615540119,
+                "confusion_matrix": [
+                    [
+                        18565,
+                        3950
+                    ],
+                    [
+                        3368,
+                        19117
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8777777777777778,
+                "f1_score": 0.8777614060177865,
+                "recall": 0.8777777777777778,
+                "precision": 0.8779942231372956,
+                "confusion_matrix": [
+                    [
+                        19497,
+                        3018
+                    ],
+                    [
+                        2482,
+                        20003
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_no_stopwords": {
+                "accuracy": 0.8793111111111112,
+                "f1_score": 0.8792829071699729,
+                "recall": 0.8793111111111112,
+                "precision": 0.8796842632267841,
+                "confusion_matrix": [
+                    [
+                        19448,
+                        3067
+                    ],
+                    [
+                        2364,
+                        20121
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_stemmed_no_sw": {
+                "accuracy": 0.8502888888888889,
+                "f1_score": 0.8502128520664568,
+                "recall": 0.8502888888888889,
+                "precision": 0.8510275961763519,
+                "confusion_matrix": [
+                    [
+                        18632,
+                        3883
+                    ],
+                    [
+                        2854,
+                        19631
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_stemmed": {
+                "accuracy": 0.8508444444444444,
+                "f1_score": 0.8508017929428483,
+                "recall": 0.8508444444444444,
+                "precision": 0.8512656794486545,
+                "confusion_matrix": [
+                    [
+                        18771,
+                        3744
+                    ],
+                    [
+                        2968,
+                        19517
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.8736666666666667,
+                "f1_score": 0.8736361040745354,
+                "recall": 0.8736666666666667,
+                "precision": 0.8740470499841821,
+                "confusion_matrix": [
+                    [
+                        19315,
+                        3200
+                    ],
+                    [
+                        2485,
+                        20000
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8753777777777778,
+                "f1_score": 0.8753400500116831,
+                "recall": 0.8753777777777778,
+                "precision": 0.8758534823657285,
+                "confusion_matrix": [
+                    [
+                        19312,
+                        3203
+                    ],
+                    [
+                        2405,
+                        20080
+                    ]
+                ]
+            },
+            "roberta_review_vector_tokenized": {
+                "accuracy": 0.8366888888888889,
+                "f1_score": 0.8366380487355387,
+                "recall": 0.8366888888888889,
+                "precision": 0.837128623180939,
+                "confusion_matrix": [
+                    [
+                        18436,
+                        4079
+                    ],
+                    [
+                        3270,
+                        19215
+                    ]
+                ]
+            },
+            "roberta_review_vector_no_stopwords": {
+                "accuracy": 0.8245555555555556,
+                "f1_score": 0.8245166736886642,
+                "recall": 0.8245555555555556,
+                "precision": 0.8248274385260662,
+                "confusion_matrix": [
+                    [
+                        18895,
+                        3620
+                    ],
+                    [
+                        4275,
+                        18210
+                    ]
+                ]
+            },
+            "roberta_review_vector_stemmed_no_sw": {
+                "accuracy": 0.7822,
+                "f1_score": 0.7820113148319011,
+                "recall": 0.7822,
+                "precision": 0.7831499914021296,
+                "confusion_matrix": [
+                    [
+                        18269,
+                        4246
+                    ],
+                    [
+                        5555,
+                        16930
+                    ]
+                ]
+            },
+            "roberta_review_vector_stemmed": {
+                "accuracy": 0.8215777777777777,
+                "f1_score": 0.8215714690091325,
+                "recall": 0.8215777777777777,
+                "precision": 0.8216301550754069,
+                "confusion_matrix": [
+                    [
+                        18359,
+                        4156
+                    ],
+                    [
+                        3873,
+                        18612
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized": {
+                "accuracy": 0.8329555555555556,
+                "f1_score": 0.8329539572784771,
+                "recall": 0.8329555555555556,
+                "precision": 0.8329721243660331,
+                "confusion_matrix": [
+                    [
+                        18679,
+                        3836
+                    ],
+                    [
+                        3681,
+                        18804
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8220666666666666,
+                "f1_score": 0.8220272332140766,
+                "recall": 0.8220666666666666,
+                "precision": 0.8223363901936948,
+                "confusion_matrix": [
+                    [
+                        18839,
+                        3676
+                    ],
+                    [
+                        4331,
+                        18154
+                    ]
+                ]
+            }
+        },
+        "RF": {
+            "google_word2vec_review_vector_tokenized": {
+                "accuracy": 0.7938666666666667,
+                "f1_score": 0.7937901445299135,
+                "recall": 0.7938666666666667,
+                "precision": 0.7943243003951401,
+                "confusion_matrix": [
+                    [
+                        17436,
+                        5079
+                    ],
+                    [
+                        4197,
+                        18288
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_no_stopwords": {
+                "accuracy": 0.7962666666666667,
+                "f1_score": 0.7961713966171086,
+                "recall": 0.7962666666666667,
+                "precision": 0.7968449693886901,
+                "confusion_matrix": [
+                    [
+                        17437,
+                        5078
+                    ],
+                    [
+                        4090,
+                        18395
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_stemmed_no_sw": {
+                "accuracy": 0.7564,
+                "f1_score": 0.7563120568233553,
+                "recall": 0.7564,
+                "precision": 0.7567901893890333,
+                "confusion_matrix": [
+                    [
+                        16599,
+                        5916
+                    ],
+                    [
+                        5046,
+                        17439
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_stemmed": {
+                "accuracy": 0.7535555555555555,
+                "f1_score": 0.7534759071754812,
+                "recall": 0.7535555555555555,
+                "precision": 0.7539020859017279,
+                "confusion_matrix": [
+                    [
+                        16558,
+                        5957
+                    ],
+                    [
+                        5133,
+                        17352
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.7872,
+                "f1_score": 0.7871242512294757,
+                "recall": 0.7872,
+                "precision": 0.7876295529113444,
+                "confusion_matrix": [
+                    [
+                        17295,
+                        5220
+                    ],
+                    [
+                        4356,
+                        18129
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.7914444444444444,
+                "f1_score": 0.791341015089051,
+                "recall": 0.7914444444444444,
+                "precision": 0.7920473572837576,
+                "confusion_matrix": [
+                    [
+                        17314,
+                        5201
+                    ],
+                    [
+                        4184,
+                        18301
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8319333333333333,
+                "f1_score": 0.8317756077496461,
+                "recall": 0.8319333333333333,
+                "precision": 0.8332173821580282,
+                "confusion_matrix": [
+                    [
+                        18037,
+                        4478
+                    ],
+                    [
+                        3085,
+                        19400
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_no_stopwords": {
+                "accuracy": 0.8360666666666666,
+                "f1_score": 0.8358367927062358,
+                "recall": 0.8360666666666666,
+                "precision": 0.8380019881682149,
+                "confusion_matrix": [
+                    [
+                        17977,
+                        4538
+                    ],
+                    [
+                        2839,
+                        19646
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_stemmed_no_sw": {
+                "accuracy": 0.8024,
+                "f1_score": 0.802093500551267,
+                "recall": 0.8024,
+                "precision": 0.8043277715677705,
+                "confusion_matrix": [
+                    [
+                        17176,
+                        5339
+                    ],
+                    [
+                        3553,
+                        18932
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_stemmed": {
+                "accuracy": 0.7951777777777778,
+                "f1_score": 0.7949672678826205,
+                "recall": 0.7951777777777778,
+                "precision": 0.7964295250930348,
+                "confusion_matrix": [
+                    [
+                        17178,
+                        5337
+                    ],
+                    [
+                        3880,
+                        18605
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.8264666666666667,
+                "f1_score": 0.8262787794486034,
+                "recall": 0.8264666666666667,
+                "precision": 0.8279219561734366,
+                "confusion_matrix": [
+                    [
+                        17863,
+                        4652
+                    ],
+                    [
+                        3157,
+                        19328
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8284666666666667,
+                "f1_score": 0.8282186396974404,
+                "recall": 0.8284666666666667,
+                "precision": 0.8304173551768348,
+                "confusion_matrix": [
+                    [
+                        17793,
+                        4722
+                    ],
+                    [
+                        2997,
+                        19488
+                    ]
+                ]
+            },
+            "roberta_review_vector_tokenized": {
+                "accuracy": 0.8449111111111111,
+                "f1_score": 0.8447839728800596,
+                "recall": 0.8449111111111111,
+                "precision": 0.8460776486348713,
+                "confusion_matrix": [
+                    [
+                        18374,
+                        4141
+                    ],
+                    [
+                        2838,
+                        19647
+                    ]
+                ]
+            },
+            "roberta_review_vector_no_stopwords": {
+                "accuracy": 0.8345555555555556,
+                "f1_score": 0.8345120245068619,
+                "recall": 0.8345555555555556,
+                "precision": 0.8349263864783955,
+                "confusion_matrix": [
+                    [
+                        18420,
+                        4095
+                    ],
+                    [
+                        3350,
+                        19135
+                    ]
+                ]
+            },
+            "roberta_review_vector_stemmed_no_sw": {
+                "accuracy": 0.7944666666666667,
+                "f1_score": 0.7943977525637016,
+                "recall": 0.7944666666666667,
+                "precision": 0.7948817772990092,
+                "confusion_matrix": [
+                    [
+                        17471,
+                        5044
+                    ],
+                    [
+                        4205,
+                        18280
+                    ]
+                ]
+            },
+            "roberta_review_vector_stemmed": {
+                "accuracy": 0.8293333333333334,
+                "f1_score": 0.8292351753802999,
+                "recall": 0.8293333333333334,
+                "precision": 0.8301192565597558,
+                "confusion_matrix": [
+                    [
+                        18128,
+                        4387
+                    ],
+                    [
+                        3293,
+                        19192
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized": {
+                "accuracy": 0.8420444444444445,
+                "f1_score": 0.8419668896336853,
+                "recall": 0.8420444444444445,
+                "precision": 0.8427425074800681,
+                "confusion_matrix": [
+                    [
+                        18455,
+                        4060
+                    ],
+                    [
+                        3048,
+                        19437
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8291111111111111,
+                "f1_score": 0.8290708265893258,
+                "recall": 0.8291111111111111,
+                "precision": 0.8294390263949211,
+                "confusion_matrix": [
+                    [
+                        18317,
+                        4198
+                    ],
+                    [
+                        3492,
+                        18993
+                    ]
+                ]
+            }
+        },
+        "ANN": {
+            "google_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8384,
+                "f1_score": 0.8383225556210291,
+                "recall": 0.8384,
+                "precision": 0.8390745253161973,
+                "confusion_matrix": [
+                    [
+                        18379,
+                        4136
+                    ],
+                    [
+                        3136,
+                        19349
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_no_stopwords": {
+                "accuracy": 0.8361777777777778,
+                "f1_score": 0.8361744621199287,
+                "recall": 0.8361777777777778,
+                "precision": 0.8362103971468432,
+                "confusion_matrix": [
+                    [
+                        18720,
+                        3795
+                    ],
+                    [
+                        3577,
+                        18908
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_stemmed_no_sw": {
+                "accuracy": 0.7838,
+                "f1_score": 0.7820921298199807,
+                "recall": 0.7838,
+                "precision": 0.7930816174805845,
+                "confusion_matrix": [
+                    [
+                        15651,
+                        6864
+                    ],
+                    [
+                        2865,
+                        19620
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_stemmed": {
+                "accuracy": 0.8000444444444444,
+                "f1_score": 0.7999820380914526,
+                "recall": 0.8000444444444444,
+                "precision": 0.800400854953782,
+                "confusion_matrix": [
+                    [
+                        18406,
+                        4109
+                    ],
+                    [
+                        4889,
+                        17596
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.8348222222222222,
+                "f1_score": 0.8347910817207079,
+                "recall": 0.8348222222222222,
+                "precision": 0.8350905292193215,
+                "confusion_matrix": [
+                    [
+                        18482,
+                        4033
+                    ],
+                    [
+                        3400,
+                        19085
+                    ]
+                ]
+            },
+            "google_word2vec_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8284888888888889,
+                "f1_score": 0.8281106510336913,
+                "recall": 0.8284888888888889,
+                "precision": 0.8314586324246358,
+                "confusion_matrix": [
+                    [
+                        17593,
+                        4922
+                    ],
+                    [
+                        2796,
+                        19689
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_tokenized": {
+                "accuracy": 0.8786222222222222,
+                "f1_score": 0.8786111003100783,
+                "recall": 0.8786222222222222,
+                "precision": 0.8787726498348102,
+                "confusion_matrix": [
+                    [
+                        19561,
+                        2954
+                    ],
+                    [
+                        2508,
+                        19977
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_no_stopwords": {
+                "accuracy": 0.8762666666666666,
+                "f1_score": 0.8762166160501598,
+                "recall": 0.8762666666666666,
+                "precision": 0.8769001451088352,
+                "confusion_matrix": [
+                    [
+                        19271,
+                        3244
+                    ],
+                    [
+                        2324,
+                        20161
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_stemmed_no_sw": {
+                "accuracy": 0.8467777777777777,
+                "f1_score": 0.8466814605709777,
+                "recall": 0.8467777777777777,
+                "precision": 0.8476801434699633,
+                "confusion_matrix": [
+                    [
+                        18496,
+                        4019
+                    ],
+                    [
+                        2876,
+                        19609
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_stemmed": {
+                "accuracy": 0.8468222222222223,
+                "f1_score": 0.8467480663854854,
+                "recall": 0.8468222222222223,
+                "precision": 0.8475200834445116,
+                "confusion_matrix": [
+                    [
+                        18566,
+                        3949
+                    ],
+                    [
+                        2944,
+                        19541
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized": {
+                "accuracy": 0.866,
+                "f1_score": 0.8659813542772663,
+                "recall": 0.866,
+                "precision": 0.8662178159636681,
+                "confusion_matrix": [
+                    [
+                        19227,
+                        3288
+                    ],
+                    [
+                        2742,
+                        19743
+                    ]
+                ]
+            },
+            "self_trained_word2vec_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8714888888888889,
+                "f1_score": 0.8714820753126434,
+                "recall": 0.8714888888888889,
+                "precision": 0.8715765450199562,
+                "confusion_matrix": [
+                    [
+                        19452,
+                        3063
+                    ],
+                    [
+                        2720,
+                        19765
+                    ]
+                ]
+            },
+            "roberta_review_vector_tokenized": {
+                "accuracy": 0.8908444444444444,
+                "f1_score": 0.8908407844422696,
+                "recall": 0.8908444444444444,
+                "precision": 0.8908903756785808,
+                "confusion_matrix": [
+                    [
+                        20182,
+                        2333
+                    ],
+                    [
+                        2579,
+                        19906
+                    ]
+                ]
+            },
+            "roberta_review_vector_no_stopwords": {
+                "accuracy": 0.8689111111111111,
+                "f1_score": 0.8689102242982236,
+                "recall": 0.8689111111111111,
+                "precision": 0.8689245182768578,
+                "confusion_matrix": [
+                    [
+                        19499,
+                        3016
+                    ],
+                    [
+                        2883,
+                        19602
+                    ]
+                ]
+            },
+            "roberta_review_vector_stemmed_no_sw": {
+                "accuracy": 0.8230888888888889,
+                "f1_score": 0.8230828194725384,
+                "recall": 0.8230888888888889,
+                "precision": 0.823140036543184,
+                "confusion_matrix": [
+                    [
+                        18395,
+                        4120
+                    ],
+                    [
+                        3841,
+                        18644
+                    ]
+                ]
+            },
+            "roberta_review_vector_stemmed": {
+                "accuracy": 0.8703777777777778,
+                "f1_score": 0.8703777489088269,
+                "recall": 0.8703777777777778,
+                "precision": 0.870379165083751,
+                "confusion_matrix": [
+                    [
+                        19578,
+                        2937
+                    ],
+                    [
+                        2896,
+                        19589
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized": {
+                "accuracy": 0.8860888888888889,
+                "f1_score": 0.8860703002170278,
+                "recall": 0.8860888888888889,
+                "precision": 0.8863565316443289,
+                "confusion_matrix": [
+                    [
+                        19657,
+                        2858
+                    ],
+                    [
+                        2268,
+                        20217
+                    ]
+                ]
+            },
+            "roberta_review_vector_lemmatized_no_sw": {
+                "accuracy": 0.8564444444444445,
+                "f1_score": 0.8563122543622594,
+                "recall": 0.8564444444444445,
+                "precision": 0.8577961539534813,
+                "confusion_matrix": [
+                    [
+                        18595,
+                        3920
+                    ],
+                    [
+                        2540,
+                        19945
+                    ]
+                ]
+            }
+        }
+    },
+    "training_params": {
+        "training_setup": {
+            "test_size": 0.9,
+            "random_state": 34
+        },
+        "SVM": {
+            "kernel": "rbf",
+            "C": 1.5,
+            "gamma": "scale"
+        },
+        "RF": {
+            "n_estimators": 200,
+            "criterion": "gini",
+            "max_depth": null,
+            "random_state": 34
+        },
+        "ANN": {
+            "hidden_units": [
+                128,
+                64,
+                32
+            ],
+            "activation": "relu",
+            "learning_rate": 0.001,
+            "epochs": 30,
+            "batch_size": 32,
+            "dropout": 0.3,
+            "optimizer": "adam",
+            "regularization": {
+                "l2": 0.001
+            },
+            "early_stopping": true
+        }
+    }
+}

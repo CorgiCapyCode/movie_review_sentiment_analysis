@@ -1,0 +1,45 @@
+{
+    "test_results": {
+        "ANN": {
+            "roberta_review_vector_tokenized": {
+                "accuracy": 0.8987,
+                "f1_score": 0.898681999890407,
+                "recall": 0.8987,
+                "precision": 0.8991418821861166,
+                "confusion_matrix": [
+                    [
+                        4439,
+                        588
+                    ],
+                    [
+                        425,
+                        4548
+                    ]
+                ]
+            }
+        }
+    },
+    "training_params": {
+        "training_setup": {
+            "test_size": 0.2,
+            "random_state": 8976453
+        },
+        "ANN": {
+            "hidden_units": [
+                128,
+                64,
+                32
+            ],
+            "activation": "relu",
+            "learning_rate": 0.001,
+            "epochs": 30,
+            "batch_size": 16,
+            "dropout": 0.3,
+            "optimizer": "adam",
+            "regularization": {
+                "l2": 0.001
+            },
+            "early_stopping": true
+        }
+    }
+}

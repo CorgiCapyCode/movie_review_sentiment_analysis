@@ -40,7 +40,7 @@ def load_pretrained_word2vec(model_path: str ='src/preprocessing/vec_model_weigh
         logger.info(f'Loaded model weights from {model_path}.')
         return pretrained_word2vec
     except FileNotFoundError as fnf:
-        logger.error(f'FileNotFoundError: {fnf}')
+        logger.error(f'FileNotFoundError: {fnf}. Check if the model is downloaded and the path is correct.')
     except Exception as e:
         logger.error(f'Error loading model: {e}')
 

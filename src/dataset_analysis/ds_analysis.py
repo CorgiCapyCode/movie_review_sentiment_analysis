@@ -1,8 +1,12 @@
+import json
 import logging
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import pandas as pd
+import sys
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.preprocessing.read_data import csv_reader, pickle_reader
 
 logging.basicConfig(level=logging.WARNING)
@@ -119,50 +123,153 @@ def plot_token_histogram_stacked(overall_counts: list, positive_counts: list, ne
     print(f"Histogram saved at {save_path}")
 
 
+def convert_json_to_csv(data_path: str):
+    """
+    Converts a JSON file to a CSV file.
+
+    Args:
+        data_path: str -> Path to the JSON file.
+    """
+    try:
+        with open (data_path, 'r') as json_file:
+            data = json.load(json_file)
+            
+        test_results = data['test_results']
+        rows = []
+        for model, datasets in test_results.items():
+            for dataset, metrics in datasets.items():
+                row = {
+                    'model': model,
+                    'dataset': dataset,
+                    'accuracy': metrics['accuracy'],
+                    'f1_score': metrics['f1_score'],
+                    'precision': metrics['precision'],
+                    'recall': metrics['recall']
+                }
+                rows.append(row)
+        
+        df = pd.DataFrame(rows)
+        df.to_csv(f'{data_path.replace(".json", ".csv")}', index=False)
+    except Exception as e:
+        print(f"Error converting JSON to CSV: {e}")
+
+
+def plot_accuracy_histogram(data: pd.DataFrame, accuracy_column: str = 'accuracy', model_column: str = 'model', bin_width: float = 0.02, save_path: str = 'accuracy_histogram.png'):
+    """
+    Plots a histogram of accuracy results clustered in 2% steps, with bars divided by model type.
+
+    Args:
+        data: pd.DataFrame -> The input data containing accuracy and model columns.
+        accuracy_column: str -> The name of the column containing accuracy values.
+        model_column: str -> The name of the column containing classifiers.
+        bin_width: float (0.02) -> The width of each accuracy bin
+        save_path: str -> The file path to save the histogram image.
+    """
+    try:
+        min_accuracy = np.floor(data[accuracy_column].min() / bin_width) * bin_width
+        max_accuracy = np.ceil(data[accuracy_column].max() / bin_width) * bin_width
+        bins = np.arange(min_accuracy, max_accuracy + bin_width, bin_width)
+
+        colors = {
+            'ANN': '#90ee90',  # Light green
+            'SVM': '#1f77b4',  # Dark blue
+            'RF': '#ff7f0e'    # Orange
+        }
+
+        model_histograms = {model: np.zeros(len(bins) - 1) for model in colors.keys()}
+
+        for model in colors.keys():
+            model_data = data[data[model_column] == model]
+            model_histograms[model], _ = np.histogram(model_data[accuracy_column], bins=bins)
+
+        bottom = np.zeros(len(bins) - 1)
+        plt.figure(figsize=(10, 6))
+        for model, color in colors.items():
+            plt.bar(bins[:-1], model_histograms[model], width=bin_width, color=color, edgecolor='black', alpha=0.8, label=model, bottom=bottom)
+            bottom += model_histograms[model]
+
+        plt.xlabel('Accuracy Range')
+        plt.ylabel('Number of Results')
+        plt.title('Histogram of Accuracy Results by Model Type')
+
+        plt.xticks(bins[:-1] + bin_width / 2, [f'{int(b*100)}-{int((b+bin_width)*100)}%' for b in bins[:-1]], rotation=45)
+
+        plt.legend(title='Model Type')
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+        plt.tight_layout()
+        plt.savefig(save_path)
+        print(f"Histogram saved to {save_path}")
+    except Exception as e:
+        print(f"Error plotting accuracy histogram: {e}")
+
+
 
 if __name__ == '__main__':
-    df = pickle_reader('data/preprocessed/preprocessed_dataset.pkl')
-    print(df.info())
-    #print(df.head())
-    #print(df.columns)
+    
+    analysis = False
+    see_results = True
+    phase_bar_chart = False
+    
+    if analysis:
+        df = pickle_reader('data/preprocessed/preprocessed_dataset.pkl')
+        print(df.info())
+        #print(df.head())
+        #print(df.columns)
 
-    sentiment_counts = count_sentiments(df)
-    print('Sentiment counts:', sentiment_counts)
-    
-    
-    
-    feature_columns = [
-    'tokenized',
-    'no_stopwords',
-    'stemmed_no_sw',
-    'stemmed',
-    'lemmatized',
-    'lemmatized_no_sw'    
-    ]
-    
-    
-    for feature in feature_columns:
-        if feature not in df.columns:
-            raise ValueError(f"Feature '{feature}' not found in DataFrame columns.")
-        token_analysis = analyze_review_lengths(df, feature)
-        print(f"Token analysis for {feature}:")
-        print(f"Longest review: {token_analysis['overall']['longest_review']}")
-        print(f"Shortest review: {token_analysis['overall']['shortest_review']}")
-        print(f"Average review length: {token_analysis['overall']['average_review']}")
-        print(f"Longest positive review: {token_analysis['positive']['longest_review']}")
-        print(f"Shortest positive review: {token_analysis['positive']['shortest_review']}")
-        print(f"Average positive review length: {token_analysis['positive']['average_review']}")
-        print(f"Longest negative review: {token_analysis['negative']['longest_review']}")
-        print(f"Shortest negative review: {token_analysis['negative']['shortest_review']}")
-        print(f"Average negative review length: {token_analysis['negative']['average_review']}")
-    
-    
-    tokenized_results = analyze_review_lengths(df, 'tokenized')
+        sentiment_counts = count_sentiments(df)
+        print('Sentiment counts:', sentiment_counts)
+        
+        
+        
+        feature_columns = [
+        'tokenized',
+        'no_stopwords',
+        'stemmed_no_sw',
+        'stemmed',
+        'lemmatized',
+        'lemmatized_no_sw'    
+        ]
+        
+        
+        for feature in feature_columns:
+            if feature not in df.columns:
+                raise ValueError(f"Feature '{feature}' not found in DataFrame columns.")
+            token_analysis = analyze_review_lengths(df, feature)
+            print(f"Token analysis for {feature}:")
+            print(f"Longest review: {token_analysis['overall']['longest_review']}")
+            print(f"Shortest review: {token_analysis['overall']['shortest_review']}")
+            print(f"Average review length: {token_analysis['overall']['average_review']}")
+            print(f"Longest positive review: {token_analysis['positive']['longest_review']}")
+            print(f"Shortest positive review: {token_analysis['positive']['shortest_review']}")
+            print(f"Average positive review length: {token_analysis['positive']['average_review']}")
+            print(f"Longest negative review: {token_analysis['negative']['longest_review']}")
+            print(f"Shortest negative review: {token_analysis['negative']['shortest_review']}")
+            print(f"Average negative review length: {token_analysis['negative']['average_review']}")
+        
+        
+        tokenized_results = analyze_review_lengths(df, 'tokenized')
 
-    plot_token_histogram_stacked(
-        overall_counts=tokenized_results['overall']['token_counts'],
-        positive_counts=tokenized_results['positive']['token_counts'],
-        negative_counts=tokenized_results['negative']['token_counts'],
-        save_path='data/preprocessed/token_histogram_original.png',
-        title='Token Count Histogram - Original',
-        bins=100)
+        plot_token_histogram_stacked(
+            overall_counts=tokenized_results['overall']['token_counts'],
+            positive_counts=tokenized_results['positive']['token_counts'],
+            negative_counts=tokenized_results['negative']['token_counts'],
+            save_path='data/preprocessed/token_histogram_original.png',
+            title='Token Count Histogram - Original',
+            bins=100)
+
+    if see_results:
+        convert_json_to_csv('data/training/phase_3/results_and_hyperparams_r1.json')
+        print('Finished')
+
+    
+    if phase_bar_chart:
+        df = csv_reader('data/training/phase_3/phase_3_all_results.csv')
+        
+        plot_accuracy_histogram(
+            data=df,
+            accuracy_column='accuracy',
+            model_column='model',
+            bin_width=0.01,
+            save_path='data/training/phase_3/phase_3_accuracy_histogram.png'
+        )
