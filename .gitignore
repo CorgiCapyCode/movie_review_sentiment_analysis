@@ -5,5 +5,9 @@ __pycache__/
 *.pyd
 
 # Ignore the dataset directory
-data
+data/preprocessed
+data/vectorized
+data/raw/stanford_dataset
+data/raw/stanford_Test_data.csv
+data/raw/stanford_train_data.csv
 src/preprocessing/vec_model_weights/GoogleNews-vectors-negative300.bin
