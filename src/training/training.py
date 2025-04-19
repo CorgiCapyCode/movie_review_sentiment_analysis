@@ -522,13 +522,13 @@ if __name__=='__main__':
         models = {
             'training_setup' : {
                 'test_size' : 0.2,
-                'random_state' : 654
+                'random_state' : 452
             },
             'ANN': {
                 'hidden_units': [128, 64, 32],
                 'activation': 'relu',
                 'learning_rate': 0.0001,
-                'epochs': 240,
+                'epochs': 30,
                 'batch_size': 16,
                 'dropout': 0.28,
                 'optimizer': 'adam',

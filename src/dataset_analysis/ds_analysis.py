@@ -259,7 +259,7 @@ if __name__ == '__main__':
             bins=100)
 
     if see_results:
-        convert_json_to_csv('data/training/phase_3/results_and_hyperparams_r1.json')
+        convert_json_to_csv('data/training/phase_3/results_and_hyperparams_r3.json')
         print('Finished')
 
     

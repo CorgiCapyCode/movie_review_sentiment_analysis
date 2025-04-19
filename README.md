@@ -1,5 +1,16 @@
 # Movie Review Sentiment Analysis
 
+## Requirements:
+The following resources need to be downloaded separately:  
+[GoogleNews-vectors-negative300.bin.gz](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?resourcekey=0-wjGZdNAUop6WykTtMip30g)  
+
+please store in: [src\preprocessing\vec_model_weights](src\preprocessing\vec_model_weights)
+
+Please run the preprocessing and vectorization scripts before training. Otherwise the input data is not available.  
+The two dataset are to large to upload them direct to on GitHub.  
+
+Thanks for your understanding.  
+
 ## Table of Content
 
 1. [**Introduction**](#background-information)
@@ -11,16 +22,12 @@
 7. [**Using This Repository**](#using-this-repository)
 8. [**Result Structure**](#result-structure)
 
+
 # **Introduction**
 This project is about sentiment classification of the IMDb Dataset of Movie Reviews.  
 It contains modules for preprocessing the dataset, review vectorization and model training.  
 Different approaches for each of the modules mentioned above were combined, trained and evaluated.  
 The model weights of the best performing model are stored and can be downloaded separately. [Link to Download](data/training/models)  
-
-The following resources need to be downloaded separately:  
-[GoogleNews-vectors-negative300.bin.gz](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?resourcekey=0-wjGZdNAUop6WykTtMip30g)  
-
-please store in: [src\preprocessing\vec_model_weights](src\preprocessing\vec_model_weights)
 
 # **Data and Information Extraction**
 

@@ -1,0 +1,2 @@
+model,dataset,accuracy,f1_score,precision,recall
+ANN,roberta_review_vector_tokenized,0.8987,0.898681999890407,0.8991418821861166,0.8987
