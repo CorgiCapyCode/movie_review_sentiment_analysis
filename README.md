@@ -7,7 +7,11 @@ The following resources need to be downloaded separately:
 please store in: [src\preprocessing\vec_model_weights](src\preprocessing\vec_model_weights)
 
 Please run the preprocessing and vectorization scripts before training. Otherwise the input data is not available.  
-The two dataset are to large to upload them direct to on GitHub.  
+The two dataset are too large to upload them direct to on GitHub.  
+
+Please install all requirements.  
+The code worked on Windows using WSL (Ubuntu). It is not ensured that it works on other setups.   
+It might requires to install CUDA.  
 
 Thanks for your understanding.  
 
